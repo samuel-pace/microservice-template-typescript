@@ -1,6 +1,3 @@
-<<<<<<< HEAD
-# microservice-template-typescript-
-=======
 ## Microservice Template Typescript
 
 > This is the repository
@@ -9,6 +6,3 @@
 
 - `npm i -D plop` - install plop
 - `npm run plop` - start plop generator
-
---
->>>>>>> origin/master
