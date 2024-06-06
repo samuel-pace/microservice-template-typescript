@@ -1,0 +1,8 @@
+function-name:
+  handler: functions/api/function-name/index.handler
+  events:
+    - http:
+        path: /path
+        method: GET
+        cors: ${file(./infra/api-gateway/cors.yml)}
+        private: true
