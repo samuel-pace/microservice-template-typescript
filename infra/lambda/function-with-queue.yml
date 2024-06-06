@@ -1,0 +1,16 @@
+function-name  handler: functions/api/function-name/index.handler
+  iamRoleStatementsName: microservice-name-function-name-sqs-${sls:stage}
+  iamRoleStatements:
+    - Effect: 'Allow'
+      Action:
+        - sqs:*
+      Resource:
+        Fn::GetAtt:
+          - QueueNameQueue
+          - Arn
+  events:
+    - http:
+        path: /path
+        method: GET
+        cors: ${file(./infra/api-gateway/cors.yml)}
+        private: true

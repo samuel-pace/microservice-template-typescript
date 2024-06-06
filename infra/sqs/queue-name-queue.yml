@@ -1,0 +1,6 @@
+Resources:
+  SendDiscountsQueue:
+    Type: "AWS::SQS::Queue"
+    Properties:
+      QueueName: QueueNameQueue-${sls:stage}
+      VisibilityTimeout: 60

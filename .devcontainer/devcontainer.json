@@ -1,0 +1,31 @@
+{
+  "build": {
+    "context": ".",
+    "dockerfile": "./Dockerfile"
+  },
+  "hostRequirements": {
+    "cpus": 2
+  },
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "dbaeumer.vscode-eslint",
+        "eamodio.gitlens",
+        "EditorConfig.EditorConfig",
+        "IBM.output-colorizer",
+        "mechatroner.rainbow-csv",
+        "ms-vscode.sublime-keybindings",
+        "MULU-github.jsflowchart",
+        "ria.elastic",
+        "streetsidesoftware.code-spell-checker-portuguese-brazilian",
+        "streetsidesoftware.code-spell-checker",
+        "wmaurer.change-case",
+        "yo1dog.cursor-align"
+      ]
+    }
+  },
+  "features": {
+    "ghcr.io/devcontainers/features/aws-cli:1": {},
+    "ghcr.io/stuartleeks/dev-container-features/shell-history:0": {}
+  }
+}

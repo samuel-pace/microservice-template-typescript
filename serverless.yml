@@ -1,0 +1,71 @@
+service: microservice-name
+frameworkVersion: '3'
+
+plugins:
+  - serverless-middleware # Must stay before serverless-offline
+  - serverless-offline
+  - serverless-prune-plugin
+  - serverless-plugin-existing-s3
+  - serverless-domain-manager
+  - serverless-iam-roles-per-function
+  - serverless-esbuild
+
+params:
+  default:
+    api-domain: ${ssm:/st-marche/${sls:stage}/api/${microservice-alias}/api-domain}
+
+provider:
+  name: aws
+  runtime: nodejs18.x
+  region: us-east-1
+  profile: st-marche-lambda-${sls:stage}
+  stage: ${opt:stage, 'staging'}
+  environment: ${file(./env.yml)}
+  deploymentPrefix: ${sls:stage}
+  deploymentBucket:
+    name: br.com.marche.serverless.deploys
+  apiGateway:
+    apiKeys: ${microservice-alias}-${sls:stage}
+  tracing:
+    apiGateway: true
+    lambda: true
+
+custom:
+  customDomain:
+    domainName: ${param:api-domain}
+    stage: ${sls:stage}
+    basePath: sync
+    autoDomain: false
+  prune:
+    automatic: true
+    number: 3
+  serverless-offline:
+    noPrependStageInUrl: true
+    useWorkerThreads: true
+    prefix: sync
+  middleware:
+    pos:
+      - functions/middleware/logs.handler
+
+functions:
+  - ${file(./infra/lambda/get-products.yml)}
+  - ${file(./infra/lambda/get-stocks.yml)}
+
+resources:
+  - ${file(./infra/api-gateway/auth-response.yml)}
+
+package:
+  individually: true
+  exclude:
+    - __tests__/**
+  patterns:
+    - '!tmp/**'
+    - '!package.json'
+    - '!package-lock.json'
+    - '!.editorconfig'
+    - '!.vscode/**'
+    - '!.github/**'
+    - '!.git/**'
+    - '!.nvmrc'
+    - '!README.md'
+    - '!env.yml'
